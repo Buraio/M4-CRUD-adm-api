@@ -4,7 +4,7 @@ import "dotenv/config";
 export const client = new pg.Client({
   user: "Buraio",
   host: "localhost",
-  database: "developer_projects_db",
+  database: "user_adm_permission",
   password: "@Buraio15",
   port: 5432,
 });
