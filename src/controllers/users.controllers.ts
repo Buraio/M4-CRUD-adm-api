@@ -7,9 +7,6 @@ const createUserController = async (req: Request, res: Response) => {
 
   const newUser = await createUserService(userData);
 
-  console.log("--------------------------")
-  console.log(newUser)
-
   return res.status(201).json(newUser);
 };
 

@@ -2,11 +2,11 @@ import pg from "pg";
 import "dotenv/config";
 
 export const client = new pg.Client({
-  user: "Buraio",
-  host: "localhost",
-  database: "user_adm_permission",
-  password: "@Buraio15",
-  port: 5432,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: parseInt(process.env.PORT!),
 });
 
 export const startDatabase = async () => {
