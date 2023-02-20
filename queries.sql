@@ -16,3 +16,6 @@ INSERT INTO
   users(%I)
 VALUES(%L)
 RETURNING id, name, email, admin, active;
+
+SELECT * FROM users
+WHERE "email" = $1;

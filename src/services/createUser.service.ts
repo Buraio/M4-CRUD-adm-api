@@ -15,7 +15,7 @@ const createUserService = async (userData: iCreateUserRequest) => {
   } else {
     const { data } = requestObjValidation;
 
-    const encryptedPassword = hash(data.password, 10);
+    const encryptedPassword = await hash(data.password, 10);
 
     const encryptedUserData: iCreateUserRequest = {
       name: data.name,

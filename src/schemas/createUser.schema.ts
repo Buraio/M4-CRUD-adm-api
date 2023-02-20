@@ -43,4 +43,19 @@ const createUserSchema = z.object({
   }),
 });
 
-export { createUserSchema };
+const userLoginSchema = z.object({
+  email: z
+    .string({
+      invalid_type_error: "Email must be a string",
+      required_error: "Email is required",
+    })
+    .email({
+      message: "Invalid Email",
+    }),
+  password: z.string({
+    invalid_type_error: "Password must be a string",
+    required_error: "Password is required",
+  }),
+});
+
+export { createUserSchema, userLoginSchema };
