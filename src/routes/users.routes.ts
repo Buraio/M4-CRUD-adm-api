@@ -14,7 +14,7 @@ import {
 } from "../middlewares/ensureAccountExists.middleware";
 import { ensureAccountIsNotActiveMiddleware } from "../middlewares/ensureAccountIsNotActive.middleware";
 import { ensureTokenIsValidMiddleware } from "../middlewares/ensureTokenIsValid.middleware";
-import { verifyAdminUpdateAndDeletePermissionMiddleware } from "../middlewares/verifyAdminAccount.middleware";
+import { verifyAdminUpdateAndDeletePermissionMiddleware } from "../middlewares/verifyAdminUpdateAndDeletePermission.middleware";
 import { verifyAdminGetAndPutPermissionMiddleware } from "../middlewares/verifyAdminGetAndPutPermission.middleware";
 
 const userRoutes: Router = Router();

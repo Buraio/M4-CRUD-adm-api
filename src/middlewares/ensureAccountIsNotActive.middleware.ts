@@ -1,9 +1,8 @@
-import { NextFunction, query, Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { QueryResult } from "pg";
 import format from "pg-format";
 import { client } from "../database/config";
 import { AppError } from "../errors";
-import { getLoggedAccountUsingToken } from "../functions/getLoggedAccountUsingToken";
 
 const ensureAccountIsNotActiveMiddleware = async (
   req: Request,
