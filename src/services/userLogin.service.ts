@@ -1,21 +1,24 @@
 import { compare } from "bcryptjs";
 import { sign } from "jsonwebtoken";
 import { QueryConfig, QueryResult } from "pg";
-import { z } from "zod";
+import { ZodError } from "zod";
 import { client } from "../database/config";
 import { AppError } from "../errors";
 import {
   iRetrievedUserData,
+  iTokenReturn,
   iUserLoginRequest,
 } from "../interfaces/users.interface";
 import { userLoginSchema } from "../schemas/createUser.schema";
 
-const userLoginService = async (userData: iUserLoginRequest) => {
+const userLoginService = async (
+  userData: iUserLoginRequest
+): Promise<iTokenReturn> => {
   const requestObjValidation = userLoginSchema.safeParse(userData);
 
   if (!requestObjValidation.success) {
     const error = requestObjValidation.error;
-    throw new z.ZodError(error.issues);
+    throw new ZodError(error.issues);
   } else {
     const { data } = requestObjValidation;
 
@@ -29,9 +32,11 @@ const userLoginService = async (userData: iUserLoginRequest) => {
       values: [data.email],
     };
 
-    let queryResult: QueryResult = await client.query(queryConfig);
+    let queryResult: QueryResult<iRetrievedUserData> = await client.query(
+      queryConfig
+    );
 
-    const retrievedUserData: iRetrievedUserData = queryResult.rows[0];
+    const retrievedUserData = queryResult.rows[0];
 
     if (retrievedUserData === undefined) {
       throw new AppError("Wrong email/password", 401);

@@ -19,4 +19,8 @@ interface iRetrievedUserData {
   active: boolean;
 }
 
-export { iUserRequest, iUserLoginRequest, iRetrievedUserData };
+interface iTokenReturn {
+  token: string;
+}
+
+export { iUserRequest, iUserLoginRequest, iRetrievedUserData, iTokenReturn };

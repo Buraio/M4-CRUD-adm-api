@@ -1,21 +1,23 @@
 import { QueryResult } from "pg";
 import format from "pg-format";
 import { client } from "../database/config";
-import { iUserRequest } from "../interfaces/users.interface";
+import {
+  iRetrievedUserData,
+  iUserRequest,
+} from "../interfaces/users.interface";
 import { updateUserSchema } from "../schemas/updateUser.schema";
 import { ZodError } from "zod";
 
 const updateUserAccountService = async (
   userId: number,
   userRequestBody: iUserRequest
-) => {
+): Promise<iRetrievedUserData> => {
   const requestObjValidation = updateUserSchema.safeParse(userRequestBody);
 
   if (!requestObjValidation.success) {
     const error = requestObjValidation.error;
     throw new ZodError(error.issues);
   } else {
-
     const queryFormat = format(
       `
       UPDATE users

@@ -1,11 +1,14 @@
 import jwt from "jsonwebtoken";
 import { QueryConfig, QueryResult } from "pg";
 import { client } from "../database/config";
+import { iRetrievedUserData } from "../interfaces/users.interface";
 
-const getLoggedUserProfileService = async (userToken: string) => {
+const getLoggedUserProfileService = async (
+  userToken: string
+): Promise<iRetrievedUserData> => {
   const decoded = jwt.decode(userToken);
 
-  const queryString = `
+  const queryString: string = `
     SELECT * FROM users
     WHERE "id" = $1
   `;
