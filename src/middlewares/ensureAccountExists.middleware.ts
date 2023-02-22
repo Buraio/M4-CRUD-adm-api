@@ -21,7 +21,7 @@ const ensureAccountExistsUsingEmail = async (
 
   const queryResult: QueryResult = await client.query(queryString);
 
-  if (queryResult.rowCount === 0) {
+  if (queryResult.rowCount > 0) {
     throw new AppError("Email already exists", 409);
   }
 
@@ -44,8 +44,6 @@ const ensureAccountExistsUsingId = async (
   );
 
   const queryResult: QueryResult = await client.query(queryString);
-
-    console.log(queryResult.rowCount)
 
   if (queryResult.rowCount === 0) {
     throw new AppError("User does not exist", 409);
