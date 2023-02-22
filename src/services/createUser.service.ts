@@ -3,10 +3,10 @@ import { QueryResult } from "pg";
 import format from "pg-format";
 import { z } from "zod";
 import { client } from "../database/config";
-import { iCreateUserRequest } from "../interfaces/users.interface";
+import { iUserRequest } from "../interfaces/users.interface";
 import { createUserSchema } from "../schemas/createUser.schema";
 
-const createUserService = async (userData: iCreateUserRequest) => {
+const createUserService = async (userData: iUserRequest) => {
   const requestObjValidation = createUserSchema.safeParse(userData);
 
   if (!requestObjValidation.success) {
@@ -15,9 +15,9 @@ const createUserService = async (userData: iCreateUserRequest) => {
   } else {
     const { data } = requestObjValidation;
 
-    const encryptedPassword = hash(data.password, 10);
+    const encryptedPassword = await hash(data.password, 10);
 
-    const encryptedUserData: iCreateUserRequest = {
+    const encryptedUserData: iUserRequest = {
       name: data.name,
       email: data.email,
       password: encryptedPassword,
