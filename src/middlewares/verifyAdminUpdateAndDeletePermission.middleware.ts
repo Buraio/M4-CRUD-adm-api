@@ -1,9 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { QueryResult } from "pg";
-import format from "pg-format";
-import { client } from "../database/config";
 import { AppError } from "../errors";
-import { getDecodedToken } from "../functions/getDecodedToken";
 import { getLoggedAccountUsingToken } from "../functions/getLoggedAccountUsingToken";
 
 const verifyAdminUpdateAndDeletePermissionMiddleware = async (
