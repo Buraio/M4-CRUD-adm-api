@@ -1,13 +1,11 @@
 import { Request, Response } from "express";
-import {
-  iUserRequest,
-  iUserLoginRequest,
-} from "../interfaces/users.interface";
+import { iUserRequest, iUserLoginRequest } from "../interfaces/users.interface";
 import { createUserService } from "../services/createUser.service";
 import { disableUserAccountService } from "../services/disableUserAccount.service";
 import { getLoggedUserProfileService } from "../services/getLoggedUserProfile.service";
 import { listAllUsersService } from "../services/listAllUsers.service";
 import { recoverUserAccountService } from "../services/recoverUserAccount.service";
+import { updateUserAccountService } from "../services/updateUserAccount.service";
 import { userLoginService } from "../services/userLogin.service";
 
 const createUserController = async (req: Request, res: Response) => {
@@ -58,6 +56,15 @@ const recoverUserAccountController = async (req: Request, res: Response) => {
   return res.status(204).send();
 };
 
+const updateUserAccountController = async (req: Request, res: Response) => {
+  const paramsId = Number(req.params.id);
+  const body = req.body;
+
+  const userProfile = await updateUserAccountService(paramsId, body);
+
+  return res.status(200).json(userProfile);
+};
+
 export {
   createUserController,
   userLoginController,
@@ -65,4 +72,5 @@ export {
   disableUserAccountController,
   getLoggedUserProfileController,
   recoverUserAccountController,
+  updateUserAccountController,
 };
