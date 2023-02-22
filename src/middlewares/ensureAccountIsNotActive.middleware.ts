@@ -3,6 +3,7 @@ import { QueryResult } from "pg";
 import format from "pg-format";
 import { client } from "../database/config";
 import { AppError } from "../errors";
+import { iRetrievedUserData } from "../interfaces/users.interface";
 
 const ensureAccountIsNotActiveMiddleware = async (
   req: Request,
@@ -21,7 +22,7 @@ const ensureAccountIsNotActiveMiddleware = async (
 
   const queryResult: QueryResult = await client.query(queryString);
 
-  const userData = queryResult.rows[0];
+  const userData: iRetrievedUserData = queryResult.rows[0];
 
   if (userData.active) {
     throw new AppError("User already active", 400);

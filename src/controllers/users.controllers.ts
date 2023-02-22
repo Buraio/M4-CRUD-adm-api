@@ -1,22 +1,34 @@
 import { Request, Response } from "express";
-import { iUserRequest, iUserLoginRequest } from "../interfaces/users.interface";
-import { createUserService } from "../services/createUser.service";
-import { disableUserAccountService } from "../services/disableUserAccount.service";
-import { getLoggedUserProfileService } from "../services/getLoggedUserProfile.service";
-import { listAllUsersService } from "../services/listAllUsers.service";
-import { recoverUserAccountService } from "../services/recoverUserAccount.service";
-import { updateUserAccountService } from "../services/updateUserAccount.service";
-import { userLoginService } from "../services/userLogin.service";
+import {
+  iUserRequest,
+  iUserLoginRequest,
+  iRetrievedUserData,
+} from "../interfaces/users.interface";
+import {
+  createUserService,
+  disableUserAccountService,
+  getLoggedUserProfileService,
+  listAllUsersService,
+  recoverUserAccountService,
+  updateUserAccountService,
+  userLoginService,
+} from "../services/";
 
-const createUserController = async (req: Request, res: Response) => {
+const createUserController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   const userData: iUserRequest = req.body;
 
-  const newUser = await createUserService(userData);
+  const newUser: iRetrievedUserData = await createUserService(userData);
 
   return res.status(201).json(newUser);
 };
 
-const userLoginController = async (req: Request, res: Response) => {
+const userLoginController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   const userData: iUserLoginRequest = req.body;
 
   const newUser = await userLoginService(userData);
@@ -24,13 +36,19 @@ const userLoginController = async (req: Request, res: Response) => {
   return res.status(200).json(newUser);
 };
 
-const listAllUsersController = async (req: Request, res: Response) => {
+const listAllUsersController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   const userList = await listAllUsersService();
 
   return res.status(200).json(userList);
 };
 
-const getLoggedUserProfileController = async (req: Request, res: Response) => {
+const getLoggedUserProfileController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   let token = req.headers.authorization!;
 
   token = token.split(" ")[1];
@@ -40,7 +58,10 @@ const getLoggedUserProfileController = async (req: Request, res: Response) => {
   return res.status(200).json(userProfile);
 };
 
-const disableUserAccountController = async (req: Request, res: Response) => {
+const disableUserAccountController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   const paramsId = Number(req.params.id);
 
   await disableUserAccountService(paramsId);
@@ -48,7 +69,10 @@ const disableUserAccountController = async (req: Request, res: Response) => {
   return res.status(204).send();
 };
 
-const recoverUserAccountController = async (req: Request, res: Response) => {
+const recoverUserAccountController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   const paramsId = Number(req.params.id);
 
   await recoverUserAccountService(paramsId);
@@ -56,7 +80,10 @@ const recoverUserAccountController = async (req: Request, res: Response) => {
   return res.status(204).send();
 };
 
-const updateUserAccountController = async (req: Request, res: Response) => {
+const updateUserAccountController = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   const paramsId = Number(req.params.id);
   const body = req.body;
 
