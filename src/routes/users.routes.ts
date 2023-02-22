@@ -12,6 +12,7 @@ import {
   ensureAccountExistsUsingEmail,
   ensureAccountExistsUsingId,
 } from "../middlewares/ensureAccountExists.middleware";
+import { ensureAccountIsNotActiveMiddleware } from "../middlewares/ensureAccountIsNotActive.middleware";
 import { ensureTokenIsValidMiddleware } from "../middlewares/ensureTokenIsValid.middleware";
 import { verifyAdminUpdateAndDeletePermissionMiddleware } from "../middlewares/verifyAdminAccount.middleware";
 import { verifyAdminGetAndPutPermissionMiddleware } from "../middlewares/verifyAdminGetAndPutPermission.middleware";
@@ -46,6 +47,7 @@ userRoutes.put(
   ensureTokenIsValidMiddleware,
   verifyAdminGetAndPutPermissionMiddleware,
   ensureAccountExistsUsingId,
+  ensureAccountIsNotActiveMiddleware,
   recoverUserAccountController
 );
 
