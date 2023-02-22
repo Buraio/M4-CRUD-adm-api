@@ -42,8 +42,6 @@ const userLoginService = async (userData: iUserLoginRequest) => {
       retrievedUserData.password
     );
 
-    console.log(encryptedPasswordComparison);
-
     if (!encryptedPasswordComparison || !retrievedUserData.active) {
       throw new AppError("Wrong email/password", 401);
     }

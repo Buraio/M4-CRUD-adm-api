@@ -19,3 +19,15 @@ RETURNING id, name, email, admin, active;
 
 SELECT * FROM users
 WHERE "email" = $1;
+
+UPDATE users
+SET "active" = FALSE
+WHERE "id" = $1 AND "active" = TRUE;
+
+UPDATE users
+SET "active" = TRUE
+WHERE "id" = $1 AND "active" = FALSE;
+
+UPDATE users
+SET(%I) = ROW(%L)
+WHERE "id" = $1 AND "active" = TRUE;

@@ -4,7 +4,7 @@ import format from "pg-format";
 import { client } from "../database/config";
 import { AppError } from "../errors";
 
-const ensureAccountExistsMiddleware = async (
+const ensureAccountExistsUsingEmail = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -21,11 +21,37 @@ const ensureAccountExistsMiddleware = async (
 
   const queryResult: QueryResult = await client.query(queryString);
 
-  if (queryResult.rowCount > 0) {
+  if (queryResult.rowCount === 0) {
     throw new AppError("Email already exists", 409);
   }
 
   next();
 };
 
-export { ensureAccountExistsMiddleware };
+const ensureAccountExistsUsingId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const paramsId = Number(req.params.id);
+
+  const queryString: string = format(
+    `
+    SELECT * FROM users
+    WHERE "id" = %L
+    `,
+    paramsId
+  );
+
+  const queryResult: QueryResult = await client.query(queryString);
+
+    console.log(queryResult.rowCount)
+
+  if (queryResult.rowCount === 0) {
+    throw new AppError("User does not exist", 409);
+  }
+
+  next();
+};
+
+export { ensureAccountExistsUsingEmail, ensureAccountExistsUsingId };

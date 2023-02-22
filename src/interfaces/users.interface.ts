@@ -1,4 +1,4 @@
-interface iCreateUserRequest {
+interface iUserRequest {
   name: string;
   email: string;
   password: string | Promise<string>;
@@ -19,4 +19,4 @@ interface iRetrievedUserData {
   active: boolean;
 }
 
-export { iCreateUserRequest, iUserLoginRequest, iRetrievedUserData };
+export { iUserRequest, iUserLoginRequest, iRetrievedUserData };
