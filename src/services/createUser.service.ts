@@ -1,17 +1,22 @@
 import { hash } from "bcryptjs";
 import { QueryResult } from "pg";
 import format from "pg-format";
-import { z } from "zod";
+import { ZodError } from "zod";
 import { client } from "../database/config";
-import { iUserRequest } from "../interfaces/users.interface";
+import {
+  iRetrievedUserData,
+  iUserRequest,
+} from "../interfaces/users.interface";
 import { createUserSchema } from "../schemas/createUser.schema";
 
-const createUserService = async (userData: iUserRequest) => {
+const createUserService = async (
+  userData: iUserRequest
+): Promise<iRetrievedUserData> => {
   const requestObjValidation = createUserSchema.safeParse(userData);
 
   if (!requestObjValidation.success) {
     const error = requestObjValidation.error;
-    throw new z.ZodError(error.issues);
+    throw new ZodError(error.issues);
   } else {
     const { data } = requestObjValidation;
 
@@ -24,7 +29,7 @@ const createUserService = async (userData: iUserRequest) => {
       admin: data.admin,
     };
 
-    const queryString: string = format(
+    const queryFormat: string = format(
       `
       INSERT INTO
       users(%I)
@@ -35,7 +40,9 @@ const createUserService = async (userData: iUserRequest) => {
       Object.values(encryptedUserData)
     );
 
-    const queryResult: QueryResult = await client.query(queryString);
+    const queryResult: QueryResult<iRetrievedUserData> = await client.query(
+      queryFormat
+    );
 
     return queryResult.rows[0];
   }

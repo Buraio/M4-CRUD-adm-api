@@ -3,20 +3,23 @@ import { QueryResult } from "pg";
 import format from "pg-format";
 import { client } from "../database/config";
 import { AppError } from "../errors";
+import { iUserRequest } from "../interfaces/users.interface";
 
 const ensureAccountExistsUsingEmail = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   const { body } = req;
+
+  const userRequestBody: iUserRequest = body;
 
   const queryString: string = format(
     `
     SELECT * FROM users
     WHERE "email" = %L
     `,
-    body.email
+    userRequestBody.email
   );
 
   const queryResult: QueryResult = await client.query(queryString);

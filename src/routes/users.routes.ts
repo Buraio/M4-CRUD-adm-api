@@ -11,17 +11,22 @@ import {
 import {
   ensureAccountExistsUsingEmail,
   ensureAccountExistsUsingId,
-} from "../middlewares/ensureAccountExists.middleware";
-import { ensureAccountIsNotActiveMiddleware } from "../middlewares/ensureAccountIsNotActive.middleware";
-import { ensureTokenIsValidMiddleware } from "../middlewares/ensureTokenIsValid.middleware";
-import { verifyAdminUpdateAndDeletePermissionMiddleware } from "../middlewares/verifyAdminUpdateAndDeletePermission.middleware";
-import { verifyAdminGetAndPutPermissionMiddleware } from "../middlewares/verifyAdminGetAndPutPermission.middleware";
+  ensureAccountIsNotActiveMiddleware,
+  ensureTokenIsValidMiddleware,
+  verifyAdminGetAndPutPermissionMiddleware,
+  verifyAdminUpdateAndDeletePermissionMiddleware,
+} from "../middlewares";
 
 const userRoutes: Router = Router();
 const loginRoutes: Router = Router();
 
 userRoutes.post("", ensureAccountExistsUsingEmail, createUserController);
-userRoutes.get("", ensureTokenIsValidMiddleware, verifyAdminGetAndPutPermissionMiddleware, listAllUsersController);
+userRoutes.get(
+  "",
+  ensureTokenIsValidMiddleware,
+  verifyAdminGetAndPutPermissionMiddleware,
+  listAllUsersController
+);
 userRoutes.get(
   "/profile",
   ensureTokenIsValidMiddleware,

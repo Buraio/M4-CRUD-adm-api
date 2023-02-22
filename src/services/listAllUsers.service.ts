@@ -1,8 +1,9 @@
 import { QueryConfig, QueryResult } from "pg";
 import { client } from "../database/config";
+import { iRetrievedUserData } from "../interfaces/users.interface";
 
-const listAllUsersService = async () => {
-  const queryString = `
+const listAllUsersService = async (): Promise<iRetrievedUserData[]> => {
+  const queryString: string = `
     SELECT * FROM users;
   `;
 
