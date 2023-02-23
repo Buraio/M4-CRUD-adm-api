@@ -28,7 +28,7 @@ const createUserSchema = z.object({
     .min(8, {
       message: "Password must have at least 8 characters",
     }),
-  admin: z.boolean(),
+  admin: z.boolean().optional(),
 });
 
 const userLoginSchema = z.object({
