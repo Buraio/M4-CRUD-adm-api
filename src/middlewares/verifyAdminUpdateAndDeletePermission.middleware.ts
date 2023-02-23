@@ -13,7 +13,7 @@ const verifyAdminUpdateAndDeletePermissionMiddleware = async (
 
   const { result, decodedToken } = await userData;
 
-  const isParamsIdFromLoggedUser = paramsId === Number(decodedToken);
+  const isParamsIdFromLoggedUser = paramsId === Number(decodedToken?.sub);
 
   if (!result.admin && !isParamsIdFromLoggedUser) {
     throw new AppError("Insufficient permission", 403);
