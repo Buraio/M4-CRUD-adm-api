@@ -58,7 +58,7 @@ const userLoginService = async (
       String(process.env.SECRET_KEY!),
       {
         expiresIn: "24h",
-        subject: retrievedUserData.id,
+        subject: String(retrievedUserData.id),
       }
     );
 

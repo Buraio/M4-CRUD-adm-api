@@ -1,9 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { QueryResult } from "pg";
 import format from "pg-format";
+import { ZodError } from "zod";
 import { client } from "../database/config";
 import { AppError } from "../errors";
 import { iUserRequest } from "../interfaces/users.interface";
+import { createUserSchema } from "../schemas/createUser.schema";
 
 const ensureAccountExistsUsingEmail = async (
   req: Request,
@@ -14,18 +16,23 @@ const ensureAccountExistsUsingEmail = async (
 
   const userRequestBody: iUserRequest = body;
 
+  const requestObjValidation = createUserSchema.safeParse(userRequestBody);
+  if (!requestObjValidation.success) {
+    throw new ZodError(requestObjValidation.error.issues);
+  }
+
   const queryString: string = format(
     `
-    SELECT * FROM users
-    WHERE "email" = %L
-    `,
+      SELECT * FROM users
+      WHERE "email" = %L
+      `,
     userRequestBody.email
   );
 
   const queryResult: QueryResult = await client.query(queryString);
 
   if (queryResult.rowCount > 0) {
-    throw new AppError("Email already exists", 409);
+    throw new AppError("Email already exists", 404);
   }
 
   next();

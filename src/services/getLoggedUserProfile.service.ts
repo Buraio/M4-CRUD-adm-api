@@ -9,7 +9,7 @@ const getLoggedUserProfileService = async (
   const decoded = jwt.decode(userToken);
 
   const queryString: string = `
-    SELECT * FROM users
+    SELECT id, name, email, admin, active FROM users
     WHERE "id" = $1
   `;
 

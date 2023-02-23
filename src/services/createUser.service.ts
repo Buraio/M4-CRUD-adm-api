@@ -26,7 +26,7 @@ const createUserService = async (
       name: data.name,
       email: data.email,
       password: encryptedPassword,
-      admin: data.admin,
+      admin: data.admin ? data.admin : false,
     };
 
     const queryFormat: string = format(

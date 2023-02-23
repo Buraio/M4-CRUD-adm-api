@@ -75,9 +75,9 @@ const recoverUserAccountController = async (
 ): Promise<Response> => {
   const paramsId = Number(req.params.id);
 
-  await recoverUserAccountService(paramsId);
+  const recoveredData = await recoverUserAccountService(paramsId);
 
-  return res.status(204).send();
+  return res.status(200).json(recoveredData);
 };
 
 const updateUserAccountController = async (

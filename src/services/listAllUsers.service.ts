@@ -4,7 +4,7 @@ import { iRetrievedUserData } from "../interfaces/users.interface";
 
 const listAllUsersService = async (): Promise<iRetrievedUserData[]> => {
   const queryString: string = `
-    SELECT * FROM users;
+    SELECT id, name, email, admin, active FROM users;
   `;
 
   const queryConfig: QueryConfig = {
