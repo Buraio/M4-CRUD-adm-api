@@ -1,11 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import { QueryResult } from "pg";
 import format from "pg-format";
-import { ZodError } from "zod";
+import { z, ZodError } from "zod";
 import { client } from "../database/config";
 import { AppError } from "../errors";
 import { iUserRequest } from "../interfaces/users.interface";
-import { createUserSchema } from "../schemas/createUser.schema";
 
 const ensureAccountExistsUsingEmail = async (
   req: Request,
@@ -16,9 +15,15 @@ const ensureAccountExistsUsingEmail = async (
 
   const userRequestBody: iUserRequest = body;
 
-  const requestObjValidation = createUserSchema.safeParse(userRequestBody);
-  if (!requestObjValidation.success) {
-    throw new ZodError(requestObjValidation.error.issues);
+  const emailSchema = z.string({
+    invalid_type_error: "Invalid Email"
+  }).email();
+
+  const requestObjEmailValidation = emailSchema.safeParse(
+    userRequestBody.email
+  );
+  if (!requestObjEmailValidation.success) {
+    throw new ZodError(requestObjEmailValidation.error.issues);
   }
 
   const queryString: string = format(
