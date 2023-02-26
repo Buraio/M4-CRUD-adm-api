@@ -11,7 +11,6 @@ const updateUserAccountService = async (
   userId: number,
   userRequestBody: updateUserRequest
   ): Promise<iRetrievedUserData> => {
-  console.log(userRequestBody)
   const requestObjValidation = updateUserSchema.safeParse(userRequestBody);
 
 
