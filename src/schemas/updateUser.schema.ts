@@ -5,13 +5,15 @@ const updateUserSchema = z.object({
     .string()
     .min(3, "Name must have at least 3 characters")
     .max(20, "Name must have less than 20 characters")
-    .optional(),
+    .optional()
+    .nullable(),
   email: z
     .string()
     .email({ message: "Invalid email" })
     .min(5, "Email must have at least 5 characters")
     .max(100, "Email must have less than 100 characters")
-    .optional(),
+    .optional()
+    .nullable(),
   password: z
     .string()
     .regex(
@@ -30,7 +32,10 @@ const updateUserSchema = z.object({
     .min(8, {
       message: "Password must have at least 8 characters",
     })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
-export { updateUserSchema };
+type updateUserRequest = z.infer<typeof updateUserSchema>;
+
+export { updateUserSchema, updateUserRequest };

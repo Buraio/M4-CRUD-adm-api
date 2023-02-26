@@ -23,6 +23,11 @@ const handleErrorsMiddleware = (
       message: error.message,
     });
   } else if (error instanceof ZodError) {
+    if (error.flatten().formErrors.length > 0) {
+      return res.status(400).json({
+        message: error.flatten().formErrors,
+      });
+    }
     return res.status(400).json({
       message: error.flatten().fieldErrors,
     });
